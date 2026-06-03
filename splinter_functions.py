@@ -2,7 +2,7 @@
 '''
 Author: Xiaoyu Zhang (xiaoyu.zhang@aces.su.se)
 Date: 2026-05-27 16:39:03
-LastEditTime: 2026-06-01 15:39:12
+LastEditTime: 2026-06-03 16:01:49
 Description: Functions for SPLINTER:
              - generate valid knot configurations
              - change point detection
@@ -30,7 +30,7 @@ import gc
 
 #  0. Global Helper Functions
 
-def generate_valid_knot_configurations(t, time_span):
+def generate_valid_knot_configurations(t, time_span, breaks_df, StartPad, EndPad, MaxKnotPeriod, MinKnotInterval):
     """
     Generate valid knot configurations using possible knot positions from breaks_df:
     - All combinations of possible knot positions from breaks_df that fulfill requirements
@@ -41,7 +41,8 @@ def generate_valid_knot_configurations(t, time_span):
         Time values
     time_span : float
         Total time span
-
+    breaks_df : pd.DataFrame
+        DataFrame containing possible breakpoint positions
     Returns:
     --------
     list of arrays : Valid knot configurations
@@ -50,15 +51,13 @@ def generate_valid_knot_configurations(t, time_span):
 
     # Get possible knot positions from breaks_df
     try:
-        bkps_temp = globals().get('breaks_df')
-        if bkps_temp is not None and not bkps_temp.empty:
-            possible_knots = sorted(bkps_temp['Decimal Year'].astype(float).values)
+        if breaks_df is not None and not breaks_df.empty:
+            possible_knots = sorted(breaks_df['Decimal Year'].astype(float).values)
         else:
             return [[]]
     except:
         return [[]]
     # Exclude knots within StartPad years of start and EndPad years of end
-    if 'StartPad' in globals() and 'EndPad' in globals():
         start_limit = t[0] + StartPad
         end_limit = t[-1] - EndPad
         possible_knots = [k for k in possible_knots if k >= start_limit and k <= end_limit]
@@ -273,6 +272,7 @@ def fit_gam_model(t, y, n_harmonics, knot_positions):
     }
 
 def run_gam_model(data_df, 
+                  breaks_df,
                   model_name,             # str: 'Model1' or 'Model2'
                   data_description,       # str: 'Raw Data' or 'Cleaned Data'
                   input_subst,
@@ -318,7 +318,7 @@ def run_gam_model(data_df,
     print(f"Time range: {t.min():.2f} to {t.max():.2f}")
 
     # generate valid knot configurations
-    valid_knot_configs = generate_valid_knot_configurations(t, time_span)
+    valid_knot_configs = generate_valid_knot_configurations(t, time_span, breaks_df, StartPad, EndPad, MaxKnotPeriod, MinKnotInterval)
 
     print(f"\nTesting {len(harmonics_range)} seasonal harmonic options")
     print(f"Testing {len(valid_knot_configs)} valid knot configurations")
