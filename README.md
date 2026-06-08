@@ -1,6 +1,6 @@
 # SPLINTER
 
-### "The Linear **SP**line **IN**terannual **T**rend **E**valuato**R**"
+### "The linear **SPL**ine **IN**terannual **T**rend **E**valuato**R**"
 
 SPLINTER is a generalized additive model (GAM) framework with outlier detection and removal for time series analysis of environmental monitoring data for chemical contaminants.
 
