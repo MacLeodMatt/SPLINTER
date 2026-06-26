@@ -63,6 +63,6 @@ Detailed instructions for each execution step are provided in:
 SPLINTER was developed and is maintained by [Matthew MacLeod](https://www.su.se/english/profiles/m/mmacl), Stockholm University, with contributions from:
 
 * Xiaoyu Zhang ([`@xy2gh`](https://github.com/xy2gh)), Stockholm University
-* Silke Cornelissen ([`@silkenc`](https://github.com/silkenc))
+* Silke Cornelissen ([`@silkenc`](https://github.com/silkenc)), HAS Green Academy
 
 The code was developed as a resource for the Arctic Monitoring and Assessment Programme (AMAP).
